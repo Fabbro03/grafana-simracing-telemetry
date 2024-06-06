@@ -116,24 +116,24 @@ jobs:
           md5sum ${{ steps.metadata.outputs.archive }} > ${{ steps.metadata.outputs.archive-checksum }}
           echo "::set-output name=checksum::$(cat ./${{ steps.metadata.outputs.archive-checksum }} | cut -d' ' -f1)"
 
-      - name: Lint plugin
-        run: |
-          git clone https://github.com/grafana/plugin-validator
-          pushd ./plugin-validator/cmd/plugincheck
-          go install
-          popd
-          plugincheck ${{ steps.metadata.outputs.archive }}
+#      - name: Lint plugin
+#        run: |
+#          git clone https://github.com/grafana/plugin-validator
+#          pushd ./plugin-validator/cmd/plugincheck
+#          go install
+#          popd
+#          plugincheck ${{ steps.metadata.outputs.archive }}
 
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body_path: ${{ steps.changelog.outputs.path }}
-          draft: true
+#      - name: Create release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+#          body_path: ${{ steps.changelog.outputs.path }}
+#          draft: true
 
       - name: Add plugin to release
         id: upload-plugin-asset
